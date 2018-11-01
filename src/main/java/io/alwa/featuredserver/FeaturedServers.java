@@ -56,7 +56,7 @@ public class FeaturedServers {
 
         Gson gson = new Gson();
         JsonReader reader = new JsonReader(serversFile);
-        ServerData[] featuredList = gson.fromJson(reader, ServerData[].class);
+        ServerDataTest[] featuredList = gson.fromJson(reader, ServerDataTest[].class);
 
         ServerList serverList = new ServerList(Minecraft.getMinecraft());
 
