@@ -60,18 +60,24 @@ public class FeaturedServers {
 
         ServerList serverList = new ServerList(Minecraft.getMinecraft());
 
-        for (ServerData server : featuredList) {
-            if (inList(server, serverList)) {
-                logger.log(Level.INFO, "Featured server already in server list");
-            } else {
-                logger.log(Level.INFO, "Adding featured server");
-                serverList.addServerData(server);
-                serverList.saveServerList();
+        try {
+            for (ServerData server : featuredList) {
+                if (inList(server, serverList)) {
+                    logger.log(Level.INFO, "Featured server already in server list");
+                } else {
+                    logger.log(Level.INFO, "Adding featured server");
+                    serverList.addServerData(server);
+                    serverList.saveServerList();
+                }
             }
+        } catch(Exception e){
+            e.printStackTrace();
         }
     }
 
     public static Boolean inList(ServerData server, ServerList list) {
+        if(list == null) return false;
+
         for (int i = 0; i < list.countServers(); i++) {
             ServerData serverData = list.getServerData(i);
             if (serverData.serverName.equalsIgnoreCase(server.serverName) && serverData.serverIP.equalsIgnoreCase(server.serverIP)) {
