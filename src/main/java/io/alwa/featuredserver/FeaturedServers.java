@@ -80,8 +80,10 @@ public class FeaturedServers {
 
         for (int i = 0; i < list.countServers(); i++) {
             ServerData serverData = list.getServerData(i);
-            if (serverData.serverName.equalsIgnoreCase(server.serverName) && serverData.serverIP.equalsIgnoreCase(server.serverIP)) {
-                return true;
+            if(serverData.serverName != null && serverData.serverIP != null) {
+                if (serverData.serverName.equalsIgnoreCase(server.serverName) && serverData.serverIP.equalsIgnoreCase(server.serverIP)) {
+                    return true;
+                }
             }
         }
         return false;
