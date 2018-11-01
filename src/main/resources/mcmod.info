@@ -1,0 +1,16 @@
+[
+{
+  "modid": "featuredservers",
+  "name": "Featured Servers",
+  "description": "Add a server to the server list on load, stop shipping a server.dat!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Jake_Evans"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
