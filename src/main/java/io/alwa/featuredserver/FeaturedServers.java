@@ -56,22 +56,23 @@ public class FeaturedServers {
 
         Gson gson = new Gson();
         JsonReader reader = new JsonReader(serversFile);
-        ServerDataTest[] featuredList = gson.fromJson(reader, ServerDataTest[].class);
-
-        ServerList serverList = new ServerList(Minecraft.getMinecraft());
-
-        try {
-            for (ServerData server : featuredList) {
-                if (inList(server, serverList)) {
-                    logger.log(Level.INFO, "Featured server already in server list");
-                } else {
-                    logger.log(Level.INFO, "Adding featured server");
-                    serverList.addServerData(server);
-                    serverList.saveServerList();
+        ServerDataHelper[] featuredList = gson.fromJson(reader, ServerDataHelper[].class);
+        if (featuredList != null) {
+            ServerList serverList = new ServerList(Minecraft.getMinecraft());
+            try {
+                for (ServerDataHelper serverhelp : featuredList) {
+                    ServerData server = new ServerData(serverhelp.serverName, serverhelp.serverIP, false);
+                    if (inList(server, serverList)) {
+                        logger.log(Level.INFO, "Featured server already in server list");
+                    } else {
+                        logger.log(Level.INFO, "Adding featured server");
+                        serverList.addServerData(server);
+                        serverList.saveServerList();
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch(Exception e){
-            e.printStackTrace();
         }
     }
 
