@@ -17,7 +17,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-@Mod(modid = FeaturedServers.MODID, name = FeaturedServers.NAME, version = "@VERSION@", clientSideOnly = true)
+@Mod(modid = FeaturedServers.MODID, name = FeaturedServers.NAME, version = "@VERSION@", clientSideOnly = true, acceptableRemoteVersions = "*")
 public class FeaturedServers {
     public static final String MODID = "featuredservers";
     public static final String NAME = "FeaturedServers";
