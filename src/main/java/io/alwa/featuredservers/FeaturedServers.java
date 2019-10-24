@@ -59,11 +59,13 @@ public class FeaturedServers {
             writer.write("[\n" +
                     "  {\n" +
                     "    \"serverName\": \"Featured Server\",\n" +
-                    "    \"serverIP\": \"127.0.0.1\"\n" +
+                    "    \"serverIP\": \"127.0.0.1\",\n" +
+                    "    \"forceResourcePack\": \"true\"\n" +
                     "  },\n" +
                     "  {\n" +
                     "    \"serverName\": \"Another Server!\",\n" +
-                    "    \"serverIP\": \"192.168.1.1\"\n" +
+                    "    \"serverIP\": \"192.168.1.1\",\n" +
+                    "    \"forceResourcePack\": \"false\"\n" +
                     "  }\n" +
                     "]");
             writer.close();
@@ -78,6 +80,7 @@ public class FeaturedServers {
             ServerList serverList = new ServerList(Minecraft.getInstance());
             for (ServerDataHelper serverhelp : featuredList) {
                 ServerData server = new ServerData(serverhelp.serverName, serverhelp.serverIP, false);
+                if(serverhelp.forceResourcePack != null && serverhelp.forceResourcePack) server.setResourceMode(ServerData.ServerResourceMode.ENABLED);
                 if (inList(server, serverList)) {
                     LOGGER.log(Level.INFO, "Featured server already in server list");
                 } else {
@@ -111,6 +114,7 @@ public class FeaturedServers {
 
         public String serverName;
         public String serverIP;
+        public Boolean forceResourcePack;
     }
 
 }
