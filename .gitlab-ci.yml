@@ -5,7 +5,7 @@ variables:
   CACHE_DIR2: "$CI_PROJECT_DIR/.gradle"
 
   ORIG_ARTIFACTS: "$CI_PROJECT_DIR/build/libs/FeaturedServers-*.jar"
-  ARTIFACTS: "$CI_PROJECT_DIR/FeaturedServers-*.jar"
+  ARTIFACTS: "$CI_PROJECT_DIR/*.jar"
 
 cache:
   paths:
@@ -23,6 +23,5 @@ deploy:
     - ./gradlew clean
     - cp $ORIG_ARTIFACTS .
   artifacts:
-    name: "FeaturedServers-1.14.4-$(cat $CACHE_DIR/.version)"
     paths:
       - $ARTIFACTS
