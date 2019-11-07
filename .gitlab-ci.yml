@@ -1,0 +1,28 @@
+image: openjdk:8-jdk
+
+variables:
+  CACHE_DIR: "$CI_PROJECT_DIR/build"
+  CACHE_DIR2: "$CI_PROJECT_DIR/.gradle"
+
+  ORIG_ARTIFACTS: "$CI_PROJECT_DIR/build/libs/FeaturedServers-*.jar"
+  ARTIFACTS: "$CI_PROJECT_DIR/FeaturedServers-*.jar"
+
+cache:
+  paths:
+    - $CACHE_DIR
+    - $CACHE_DIR2
+  key: "$CI_BUILD_REF_NAME"
+  untracked: false
+
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  script:
+    - ./gradlew clean
+    - cp $ORIG_ARTIFACTS .
+  artifacts:
+    name: "FeaturedServers-1.14.4-$(cat $CACHE_DIR/.version)"
+    paths:
+      - $ARTIFACTS
