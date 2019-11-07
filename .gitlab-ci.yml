@@ -20,7 +20,7 @@ stages:
 deploy:
   stage: deploy
   script:
-    - ./gradlew clean
+    - ./gradlew clean build
     - cp $ORIG_ARTIFACTS .
   artifacts:
     paths:
