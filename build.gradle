@@ -13,11 +13,16 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.14.4-${CI_PIPELINE_IID}'
+version = '1.14.4-1.1'
 group = 'io.alwa.featuredservers' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'FeaturedServers'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+
+def ENV = System.getenv()
+if (ENV.CI_PIPELINE_IID) {
+    version = version + "." + "${System.getenv().CI_PIPELINE_IID}"
+}
 
 minecraft {
     // The mappings can be changed at any time, and must be in the following format.
