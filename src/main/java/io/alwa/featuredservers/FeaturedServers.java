@@ -2,22 +2,12 @@ package io.alwa.featuredservers;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -27,23 +17,21 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.stream.Collectors;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Mod("featuredservers")
 public class FeaturedServers {
     private static final Logger LOGGER = LogManager.getLogger();
     private static String FMLConfigFolder;
-    private FileReader serversFile;
 
     public FeaturedServers() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onConfigLoad);
         FMLJavaModLoadingContext.get().getModEventBus().addListener((FMLClientSetupEvent event) -> {
             try {
                 doClientStuff(event);
-            } catch (IOException e) {
-                // Urgh, why is this so ugly...
-            }
+            } catch (IOException ignored) {}
         });
 
     }
@@ -71,7 +59,7 @@ public class FeaturedServers {
             writer.close();
         }
 
-        serversFile = new FileReader(featuredServerList.getPath());
+        FileReader serversFile = new FileReader(featuredServerList.getPath());
 
         Gson gson = new Gson();
         JsonReader reader = new JsonReader(serversFile);
@@ -80,13 +68,13 @@ public class FeaturedServers {
             ServerList serverList = new ServerList(Minecraft.getInstance());
             for (ServerDataHelper serverhelp : featuredList) {
                 ServerData server = new ServerData(serverhelp.serverName, serverhelp.serverIP, false);
-                if(serverhelp.forceResourcePack != null && serverhelp.forceResourcePack) server.setResourceMode(ServerData.ServerResourceMode.ENABLED);
+                if(serverhelp.forceResourcePack != null && serverhelp.forceResourcePack) server.setResourcePackStatus(ServerData.ServerResourceMode.ENABLED);
                 if (inList(server, serverList)) {
                     LOGGER.log(Level.INFO, "Featured server already in server list");
                 } else {
                     LOGGER.log(Level.INFO, "Adding featured server");
-                    serverList.addServerData(server);
-                    serverList.saveServerList();
+                    serverList.add(server);
+                    serverList.save();
                 }
             }
         }
@@ -99,15 +87,17 @@ public class FeaturedServers {
     public static Boolean inList(ServerData server, ServerList list) {
         if (list == null) return false;
 
-        for (int i = 0; i < list.countServers(); i++) {
-            ServerData serverData = list.getServerData(i);
-            if (serverData.serverName != null && serverData.serverIP != null) {
-                if (serverData.serverName.equalsIgnoreCase(server.serverName) && serverData.serverIP.equalsIgnoreCase(server.serverIP)) {
-                    return true;
-                }
-            }
+        List<ServerData> data = toList(list);
+        return data.stream().anyMatch(serverData -> serverData.name != null && serverData.ip != null
+                && serverData.name.equalsIgnoreCase(server.name) && serverData.ip.equalsIgnoreCase(server.ip));
+    }
+
+    private static List<ServerData> toList(ServerList list) {
+        List<ServerData> data = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            data.add(list.get(i));
         }
-        return false;
+        return data;
     }
 
     public class ServerDataHelper {
