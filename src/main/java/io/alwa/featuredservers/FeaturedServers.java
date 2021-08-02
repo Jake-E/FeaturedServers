@@ -85,10 +85,7 @@ public class FeaturedServers {
     }
 
     public static Boolean inList(ServerData server, ServerList list) {
-        if (list == null) return false;
-
-        List<ServerData> data = toList(list);
-        return data.stream().anyMatch(serverData -> serverData.name != null && serverData.ip != null
+        return list != null && toList(list).stream().anyMatch(serverData -> serverData.name != null && serverData.ip != null
                 && serverData.name.equalsIgnoreCase(server.name) && serverData.ip.equalsIgnoreCase(server.ip));
     }
 
