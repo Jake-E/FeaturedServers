@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.alwa.featuredservers.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "minemobstemplate.refmap.json",
+  "mixins": [],
+  "client": ["MixinMultiplayerScreen"],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

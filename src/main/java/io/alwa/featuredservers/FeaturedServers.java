@@ -20,11 +20,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Mod("featuredservers")
 public class FeaturedServers {
     private static final Logger LOGGER = LogManager.getLogger();
     private static String FMLConfigFolder;
+    private static ServerList serverList;
+    public static final Map<String, ServerData> servers = new HashMap<>();
 
     public FeaturedServers() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onConfigLoad);
@@ -65,7 +68,7 @@ public class FeaturedServers {
         JsonReader reader = new JsonReader(serversFile);
         ServerDataHelper[] featuredList = gson.fromJson(reader, ServerDataHelper[].class);
         if (featuredList != null) {
-            ServerList serverList = new ServerList(Minecraft.getInstance());
+            serverList = new ServerList(Minecraft.getInstance());
             for (ServerDataHelper serverhelp : featuredList) {
                 ServerData server = new ServerData(serverhelp.serverName, serverhelp.serverIP, false);
                 if(serverhelp.forceResourcePack != null && serverhelp.forceResourcePack) server.setResourcePackStatus(ServerData.ServerResourceMode.ENABLED);
@@ -76,6 +79,7 @@ public class FeaturedServers {
                     serverList.add(server);
                     serverList.save();
                 }
+                servers.put(server.ip, server);
             }
         }
     }
@@ -89,12 +93,16 @@ public class FeaturedServers {
                 && serverData.name.equalsIgnoreCase(server.name) && serverData.ip.equalsIgnoreCase(server.ip));
     }
 
-    private static List<ServerData> toList(ServerList list) {
+    public static List<ServerData> toList(ServerList list) {
         List<ServerData> data = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             data.add(list.get(i));
         }
         return data;
+    }
+
+    public static ServerList getServerList() {
+        return serverList;
     }
 
     public class ServerDataHelper {
