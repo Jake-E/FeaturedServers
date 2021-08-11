@@ -27,7 +27,7 @@ public class FeaturedServers {
     private static final Logger LOGGER = LogManager.getLogger();
     private static String FMLConfigFolder;
     private static ServerList serverList;
-    public static final Map<String, ServerData> servers = new HashMap<>();
+    public static final Map<String, FeaturedServerData> servers = new HashMap<>();
 
     public FeaturedServers() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onConfigLoad);
@@ -70,7 +70,7 @@ public class FeaturedServers {
         if (featuredList != null) {
             serverList = new ServerList(Minecraft.getInstance());
             for (ServerDataHelper serverhelp : featuredList) {
-                ServerData server = new ServerData(serverhelp.serverName, serverhelp.serverIP, false);
+                FeaturedServerData server = new FeaturedServerData(serverhelp.serverName, serverhelp.serverIP, false, serverhelp.disableButtons);
                 if(serverhelp.forceResourcePack != null && serverhelp.forceResourcePack) server.setResourcePackStatus(ServerData.ServerResourceMode.ENABLED);
                 if (inList(server, serverList)) {
                     LOGGER.log(Level.INFO, "Featured server already in server list");
@@ -110,6 +110,17 @@ public class FeaturedServers {
         public String serverName;
         public String serverIP;
         public Boolean forceResourcePack;
+        public Boolean disableButtons;
+    }
+
+    public static class FeaturedServerData extends ServerData {
+
+        public final boolean disableButtons;
+
+        public FeaturedServerData(String name, String ip, boolean forceResourcePack, Boolean disableButtons) {
+            super(name, ip, forceResourcePack);
+            this.disableButtons = disableButtons != null && disableButtons;
+        }
     }
 
 }
