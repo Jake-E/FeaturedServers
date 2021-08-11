@@ -51,12 +51,14 @@ public class FeaturedServers {
                     "  {\n" +
                     "    \"serverName\": \"Featured Server\",\n" +
                     "    \"serverIP\": \"127.0.0.1\",\n" +
-                    "    \"forceResourcePack\": \"true\"\n" +
+                    "    \"forceResourcePack\": \"true\",\n" +
+                    "    \"disableButtons\": \"true\"\n" +
                     "  },\n" +
                     "  {\n" +
                     "    \"serverName\": \"Another Server!\",\n" +
                     "    \"serverIP\": \"192.168.1.1\",\n" +
-                    "    \"forceResourcePack\": \"false\"\n" +
+                    "    \"forceResourcePack\": \"false\",\n" +
+                    "    \"disableButtons\": \"false\"\n" +
                     "  }\n" +
                     "]");
             writer.close();

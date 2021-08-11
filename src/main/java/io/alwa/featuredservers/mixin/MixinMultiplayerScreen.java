@@ -26,8 +26,8 @@ public abstract class MixinMultiplayerScreen {
             if (serverselectionlist$entry instanceof ServerSelectionList.NormalEntry) {
                 if (FeaturedServers.servers.containsKey(((ServerSelectionList.NormalEntry) serverselectionlist$entry).getServerData().ip)) {
                     boolean active = FeaturedServers.servers.get(((ServerSelectionList.NormalEntry) serverselectionlist$entry).getServerData().ip).disableButtons;
-                    this.editButton.active = active;
-                    this.deleteButton.active = active;
+                    this.editButton.active = !active;
+                    this.deleteButton.active = !active;
                     return;
                 }
                 this.editButton.active = true;
