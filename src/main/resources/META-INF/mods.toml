@@ -1,0 +1,12 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="MIT"
+issueTrackerURL="https://github.com/Jake-E/FeaturedServers/issues"
+[[mods]]
+modId="featuredservers"
+version="${file.jarVersion}"
+displayName="Featured Servers"
+authors="Jake_Evans"
+description='''
+Add a server to the server list on load, stop shipping a server.dat!
+'''
