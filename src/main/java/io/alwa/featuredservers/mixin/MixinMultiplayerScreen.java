@@ -1,6 +1,6 @@
 package io.alwa.featuredservers.mixin;
 
-import io.alwa.featuredservers.FeaturedServers;
+import io.alwa.featuredservers.FeaturedList;
 import net.minecraft.client.gui.screen.MultiplayerScreen;
 import net.minecraft.client.gui.screen.ServerSelectionList;
 import net.minecraft.client.gui.widget.button.Button;
@@ -24,10 +24,10 @@ public abstract class MixinMultiplayerScreen {
         if (serverselectionlist$entry != null && !(serverselectionlist$entry instanceof ServerSelectionList.LanScanEntry)) {
             this.selectButton.active = true;
             if (serverselectionlist$entry instanceof ServerSelectionList.NormalEntry) {
-                if (FeaturedServers.servers.containsKey(((ServerSelectionList.NormalEntry) serverselectionlist$entry).getServerData().ip)) {
-                    boolean active = FeaturedServers.servers.get(((ServerSelectionList.NormalEntry) serverselectionlist$entry).getServerData().ip).disableButtons;
-                    this.editButton.active = active;
-                    this.deleteButton.active = active;
+                if (FeaturedList.servers.containsKey(((ServerSelectionList.NormalEntry) serverselectionlist$entry).getServerData().ip)) {
+                    boolean active = FeaturedList.servers.get(((ServerSelectionList.NormalEntry) serverselectionlist$entry).getServerData().ip).disableButtons;
+                    this.editButton.active = !active;
+                    this.deleteButton.active = !active;
                     return;
                 }
                 this.editButton.active = true;
