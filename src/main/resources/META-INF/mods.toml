@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[36,)"
+loaderVersion="[37,)"
 license="MIT"
 issueTrackerURL="https://github.com/Jake-E/FeaturedServers/issues"
 [[mods]]
@@ -10,3 +10,15 @@ authors="Jake_Evans"
 description='''
 Add a server to the server list on load, stop shipping a server.dat!
 '''
+[[dependencies.featuredservers]]
+modId="forge"
+mandatory=true
+versionRange="[37,)"
+ordering="NONE"
+side="CLIENT"
+[[dependencies.featuredservers]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.17.1,1.18)"
+ordering="NONE"
+side="CLIENT"

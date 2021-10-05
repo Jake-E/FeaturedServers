@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
@@ -37,20 +38,21 @@ public class FeaturedServers {
         if (!featuredServerList.exists()) {
             featuredServerList.createNewFile();
             FileWriter writer = new FileWriter(featuredServerList);
-            writer.write("[\n" +
-                    "  {\n" +
-                    "    \"serverName\": \"Featured Server\",\n" +
-                    "    \"serverIP\": \"127.0.0.1\",\n" +
-                    "    \"forceResourcePack\": \"true\",\n" +
-                    "    \"disableButtons\": \"true\"\n" +
-                    "  },\n" +
-                    "  {\n" +
-                    "    \"serverName\": \"Another Server!\",\n" +
-                    "    \"serverIP\": \"192.168.1.1\",\n" +
-                    "    \"forceResourcePack\": \"false\",\n" +
-                    "    \"disableButtons\": \"false\"\n" +
-                    "  }\n" +
-                    "]");
+            writer.write("""
+                    [
+                      {
+                        "serverName": "Featured Server",
+                        "serverIP": "127.0.0.1",
+                        "forceResourcePack": "true",
+                        "disableButtons": "true"
+                      },
+                      {
+                        "serverName": "Another Server!",
+                        "serverIP": "192.168.1.1",
+                        "forceResourcePack": "false",
+                        "disableButtons": "false"
+                      }
+                    ]""");
             writer.close();
         }
 
@@ -62,7 +64,7 @@ public class FeaturedServers {
         new FeaturedList().doFeaturedListStuff(featuredList);
     }
 
-    void onConfigLoad(ModConfig.Loading event) {
+    private void onConfigLoad(ModConfigEvent.Loading event) {
         FMLConfigFolder = event.getConfig().getFullPath().getParent().toString();
     }
 
