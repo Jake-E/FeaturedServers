@@ -12,7 +12,9 @@ import org.spongepowered.asm.mixin.Shadow;
 public abstract class MixinServerSelectionList {
 
     @Shadow protected ServerSelectionList serverSelectionList;
-    @Shadow private Button selectButton, deleteButton, editButton;
+    @Shadow private Button selectButton;
+    @Shadow private Button deleteButton;
+    @Shadow private Button editButton;
 
     @SuppressWarnings("OverwriteAuthorRequired")
     @Overwrite
@@ -20,12 +22,12 @@ public abstract class MixinServerSelectionList {
         this.selectButton.active = false;
         this.editButton.active = false;
         this.deleteButton.active = false;
-        ServerSelectionList.Entry serverselectionlist$entry = this.serverSelectionList.getSelected();
-        if (serverselectionlist$entry != null && !(serverselectionlist$entry instanceof ServerSelectionList.LANHeader)) {
+        ServerSelectionList.Entry serverSelectionEntry = this.serverSelectionList.getSelected();
+        if (serverSelectionEntry != null && !(serverSelectionEntry instanceof ServerSelectionList.LANHeader)) {
             this.selectButton.active = true;
-            if (serverselectionlist$entry instanceof ServerSelectionList.OnlineServerEntry) {
-                if (FeaturedList.servers.containsKey(((ServerSelectionList.OnlineServerEntry) serverselectionlist$entry).getServerData().ip)) {
-                    boolean active = FeaturedList.servers.get(((ServerSelectionList.OnlineServerEntry) serverselectionlist$entry).getServerData().ip).disableButtons;
+            if (serverSelectionEntry instanceof ServerSelectionList.OnlineServerEntry entry) {
+                if (FeaturedList.servers.containsKey(entry.getServerData().ip)) {
+                    boolean active = FeaturedList.servers.get(entry.getServerData().ip).disableButtons;
                     this.editButton.active = !active;
                     this.deleteButton.active = !active;
                     return;
