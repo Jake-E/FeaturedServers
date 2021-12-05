@@ -22,7 +22,7 @@ public class FeaturedList {
             ServerList serverList = new ServerList(Minecraft.getInstance());
             for (FeaturedServers.ServerDataHelper serverhelp : featuredList) {
                 FeaturedServerData server = new FeaturedServerData(serverhelp.serverName, serverhelp.serverIP, false, serverhelp.disableButtons);
-                if(serverhelp.forceResourcePack != null && serverhelp.forceResourcePack) server.setResourcePackStatus(ServerData.ServerResourceMode.ENABLED);
+                if(serverhelp.forceResourcePack != null && serverhelp.forceResourcePack) server.setResourcePackStatus(ServerData.ServerPackStatus.ENABLED);
                 if (inList(server, serverList)) {
                     FeaturedServers.LOGGER.log(Level.INFO, "Featured server already in server list");
                 } else {

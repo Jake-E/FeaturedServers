@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "minemobstemplate.refmap.json",
   "mixins": [],
-  "client": ["MixinMultiplayerScreen"],
+  "client": [
+    "MixinServerSelectionList"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
